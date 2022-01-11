@@ -226,7 +226,7 @@ class NewEmployeeScreen(QDialog):
         else:
             count=0
             for i in range (joblen):
-                self.jon_drop.addItem(JobTitles1[count])
+                self.job_drop.addItem(JobTitles1[count])
                 count+=1      
 
         if attendanceSchem1 ==[]:
@@ -252,10 +252,9 @@ class NewEmployeeScreen(QDialog):
          
 
     def DB(self):
-        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        db_path = os.path.join(BASE_DIR, "DataBaseTable.db")
-        with sqlite3.connect(db_path) as db:
-            cursor=db.cursor()
+            conn = sqlite3.connect("./DataBaseTable.db")
+            conn.text_factory=str
+            cursor = conn.cursor()
             
             self.firstname1=self.first_line.text()
             self.middlename1=self.middle_line.text()
@@ -270,38 +269,47 @@ class NewEmployeeScreen(QDialog):
             self.attendSch=self.attend_drop.currentText()
             self.accessCat=self.access_drop.currentText()
 
+            #cursor.execute('SELECT Category FROM AccessScheme;')
+            #accesSchem=cursor.fetchall()
+            #accesSchem1=[r[0] for r in accesSchem]
 
             dep_query = 'SELECT Dept_ID FROM DepartmentsTable WHERE Dept_Name =\''+self.dep+"\'"
             cursor.execute(dep_query)
             dep_query_result  = cursor.fetchone()
+           # dep_query_result_str=[r[0] for r in dep_query_result]
 
             Job_query = 'SELECT Emp_Job_ID FROM JobTittle WHERE JobDesc =\''+self.jobTitle+"\'"
             cursor.execute(Job_query)
             Job_query_result  = cursor.fetchone()
-
+            #Job_query_result_str=[r[0] for r in Job_query_result]
 
             attendSch_query = 'SELECT AttendanceSchemes_ID FROM Attendance_Schemes_Table WHERE AttendanceDesc =\''+self.attendSch+"\'"
             cursor.execute(attendSch_query)
             attendSch_query_result  = cursor.fetchone()
+            #attendSch_query_result_str=[r[0] for r in attendSch_query_result]
 
             AccessCat_query = 'SELECT AccessSchemID FROM AccessScheme WHERE Category =\''+self.accessCat+"\'"
             cursor.execute(AccessCat_query)
             AccessCat_query_result  = cursor.fetchone()
+            #AccessCat_query_result_str=[r[0] for r in AccessCat_query_result]
 
 
-            Emp_info=[self.firstname1,self.middlename1,self.lastname1,self.address,self.var_name,dep_query_result[0],Job_query_result[0],attendSch_query_result[0],AccessCat_query_result[0]]
 
-            cursor.fetchone()
+            #cursor.fetchone()
+        
+            if dep_query_result is not None: 
 
-            if (len(self.firstname1)&len(self.middlename1)&len(self.lastname1)&len(self.address))!=0: 
+                Emp_info=[self.firstname1,self.middlename1,self.lastname1,self.address,self.var_name,dep_query_result[0],Job_query_result[0],attendSch_query_result[0],AccessCat_query_result[0]]
 
                 cursor.execute("INSERT INTO Employees (Emp_First_Name, Emp_Middle_Name, Emp_Last_Name,Emp_Address,Emp_DOB,Emp_Dpet_ID,Emp_Job_ID,Emp_Attendace_Scheme ID,Emp_Access_ID) VALUES (?,?,?,?,?,?,?,?.?);",Emp_info)
+
                 NewEmployeeScreen.genID(self)
             
             else:
                 QMessageBox.about(self, "alert", "please Fill All ")
                 self.error.setText("Please Fill the Missing Parts")
-
+    
+            
     
 
     def BrowseImage(self):
@@ -576,10 +584,12 @@ class AttendanceTab(QWidget):
         layout.addWidget(self.AttendanceIDline)
         layout.addWidget(AttendanceDesc)
         layout.addWidget(self.AttendanceDescline)
-        layout.addWidget(LeavingTime)
-        layout.addWidget(self.LeavingTimeline)
+
         layout.addWidget(ArrivingTime)
         layout.addWidget(self.ArrivingTimeline)
+
+        layout.addWidget(LeavingTime)
+        layout.addWidget(self.LeavingTimeline)
 
         self.insertbtn = QPushButton("Insert")
         self.cancelbtn = QPushButton("cancel")
@@ -616,7 +626,7 @@ class AttendanceTab(QWidget):
             AttendanceDescline1=self.AttendanceDescline.text()
 
            # cursor.execute("INSERT OR IGNORE INTO DepartmentsTable (Dept_ID, Dept_Name) VALUES (?,?);",(DepID1,DepDesc1))
-            print( cursor.execute("INSERT OR IGNORE INTO AttendanceSchemesTable (AttendanceSchemes_ID, Entry_Time,Leave_Time,AttendanceDesc) VALUES (?,?,?,?);",(AttendanceSchemeID1,ArrivingTime1,LeavingTime1,AttendanceDescline1)))
+            print( cursor.execute("INSERT OR IGNORE INTO Attendance_Schemes_Table (AttendanceSchemes_ID, Entry_Time,Leave_Time,AttendanceDesc) VALUES (?,?,?,?);",(AttendanceSchemeID1,ArrivingTime1,LeavingTime1,AttendanceDescline1)))
             print(cursor.fetchone())
         if not cursor.fetchone():
 
@@ -1023,7 +1033,7 @@ class AddNewAdmin(QDialog):
 
 # main
 app = QApplication(sys.argv)
-welcome = MainWin()
+welcome = NewEmployeeScreen()
 widget = QtWidgets.QStackedWidget()
 widget.addWidget(welcome)
 widget.setWindowTitle("Welcome")
