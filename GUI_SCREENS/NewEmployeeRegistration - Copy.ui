@@ -706,21 +706,6 @@ QAbstractSpinBox {
    <property name="frame">
     <bool>true</bool>
    </property>
-   <item>
-    <property name="text">
-     <string>General manager</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Head Security</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Sales employee</string>
-    </property>
-   </item>
   </widget>
   <widget class="QLabel" name="label_83">
    <property name="geometry">
@@ -882,7 +867,7 @@ QAbstractSpinBox {
   <widget class="QComboBox" name="attend_drop">
    <property name="geometry">
     <rect>
-     <x>770</x>
+     <x>790</x>
      <y>690</y>
      <width>271</width>
      <height>41</height>
@@ -907,21 +892,6 @@ QAbstractSpinBox {
    <property name="placeholderText">
     <string>Select Attendance Scheme </string>
    </property>
-   <item>
-    <property name="text">
-     <string>New Item</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>New Item</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>New Item</string>
-    </property>
-   </item>
   </widget>
   <widget class="QLabel" name="photo_label">
    <property name="geometry">
@@ -1165,21 +1135,6 @@ border-radius: 90px;</string>
    <property name="placeholderText">
     <string>Select Acess Categroy</string>
    </property>
-   <item>
-    <property name="text">
-     <string>A</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>B</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>C</string>
-    </property>
-   </item>
   </widget>
   <widget class="QLabel" name="label_67">
    <property name="geometry">
@@ -1294,7 +1249,7 @@ border-radius: 90px;</string>
   <widget class="QComboBox" name="dep_drop">
    <property name="geometry">
     <rect>
-     <x>770</x>
+     <x>790</x>
      <y>570</y>
      <width>271</width>
      <height>41</height>
@@ -1596,6 +1551,31 @@ border-radius: 20px;
      <string>Male</string>
     </property>
    </widget>
+  </widget>
+  <widget class="QLabel" name="E2">
+   <property name="geometry">
+    <rect>
+     <x>910</x>
+     <y>440</y>
+     <width>361</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Barlow</family>
+     <pointsize>20</pointsize>
+     <weight>9</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:red</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
   </widget>
  </widget>
  <resources/>

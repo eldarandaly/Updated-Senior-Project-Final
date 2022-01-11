@@ -119,7 +119,7 @@ class NewEmployeeScreen(QDialog):
         self.handel_Lines()
         self.handel_photo()
         self.handel_Ui()
-
+        #self.x=NewEmployeeScreen()
         
         self.testCapID=''  
         self.getCompayinfo()  
@@ -186,30 +186,70 @@ class NewEmployeeScreen(QDialog):
         cursor.execute('SELECT Dept_Name FROM DepartmentsTable;')
         dept_names=cursor.fetchall()
         dept_names1=[r[0] for r in dept_names]
-       # print(dept_names[1])
-        print(dept_names1)
 
-        #dpnames=str(dept_names)
-        #cleannames=re.findall('"(?:\\.|[^"\\])*"',dpnames)
-        #cl=dpnames.split('"')[1::2]
-        #pattern=re.findall("\A''",dpnames)
-        #print(pattern)
-        # lst=[x for x in dpnames if not re.match(pattern,x)]
-        # print(lst)
-        #print(cleannames)
-        #print(cl)
-        size1=len(dept_names1)
+        cursor.execute('SELECT JobDesc FROM JobTittle;')
+        JobTitles=cursor.fetchall()
+        JobTitles1=[r[0] for r in JobTitles]
+
+        cursor.execute('SELECT AttendanceDesc FROM Attendance_Schemes_Table;')
+        attendanceSchem=cursor.fetchall()
+        attendanceSchem1=[r[0] for r in attendanceSchem]
+
+        cursor.execute('SELECT Category FROM AccessScheme;')
+        accesSchem=cursor.fetchall()
+        accesSchem1=[r[0] for r in accesSchem]
+
+        #print(dept_names[1])
+        #print(dept_names1)
 
 
-        if dept_names is None:
+        deptlen=len(dept_names1)
+        joblen=len(JobTitles1)
+        attendanceSchLen=len(attendanceSchem1)
+        accesSchemLen=len(accesSchem1)
+        
+        if dept_names1 == []:
             print("you cant add New Employee you must First ADD Company Dept's")
+            self.E2.setText("Go To Company Information To Add Dept")
+            self.save_button.setEnabled(False)   
         else:
             count=0
-            for i in range (size1):
+            for i in range (deptlen):
                 self.dep_drop.addItem(dept_names1[count])
                 count+=1
-                    
-                    
+
+
+        if  JobTitles == []:
+            print("you cant add New Employee you must First ADD Company Job Titles's")
+            self.E2.setText("Go To Company Information To Add Job Tiltle")
+            self.save_button.setEnabled(False)     
+        else:
+            count=0
+            for i in range (joblen):
+                self.jon_drop.addItem(JobTitles1[count])
+                count+=1      
+
+        if attendanceSchem1 ==[]:
+            print("you cant add New Employee you must First ADD Company attendance Schem")
+            self.E2.setText("Go To Company Information To Add attendance Schem") 
+            self.save_button.setEnabled(False)     
+        else:
+            count=0 
+            for i in range (attendanceSchLen):
+                self.attend_drop.addItem(attendanceSchem1[count])
+                count+=1    
+
+        if accesSchem1 ==[]:
+            print("you cant add New Employee you must First ADD Company Access Schem")  
+            self.E2.setText("Go To Company Information To Add Access Schem") 
+            self.save_button.setEnabled(False)      
+        else:
+            count=0 
+            for i in range (accesSchemLen):
+                self.access_drop.addItem(accesSchem1[count])
+                count+=1    
+
+         
 
     def DB(self):
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -224,19 +264,38 @@ class NewEmployeeScreen(QDialog):
             self.address=self.address_line.text()
             self.DOB=self.dateEdit.date()
             self.var_name = self.DOB.toPyDate()
+
             self.dep=self.dep_drop.currentText()
+            self.jobTitle=self.job_drop.currentText()
+            self.attendSch=self.attend_drop.currentText()
+            self.accessCat=self.access_drop.currentText()
+
 
             dep_query = 'SELECT Dept_ID FROM DepartmentsTable WHERE Dept_Name =\''+self.dep+"\'"
             cursor.execute(dep_query)
             dep_query_result  = cursor.fetchone()
 
-            Emp_info=[self.firstname1,self.middlename1,self.lastname1,self.address,self.var_name,dep_query_result[0]]
+            Job_query = 'SELECT Emp_Job_ID FROM JobTittle WHERE JobDesc =\''+self.jobTitle+"\'"
+            cursor.execute(Job_query)
+            Job_query_result  = cursor.fetchone()
+
+
+            attendSch_query = 'SELECT AttendanceSchemes_ID FROM Attendance_Schemes_Table WHERE AttendanceDesc =\''+self.attendSch+"\'"
+            cursor.execute(attendSch_query)
+            attendSch_query_result  = cursor.fetchone()
+
+            AccessCat_query = 'SELECT AccessSchemID FROM AccessScheme WHERE Category =\''+self.accessCat+"\'"
+            cursor.execute(AccessCat_query)
+            AccessCat_query_result  = cursor.fetchone()
+
+
+            Emp_info=[self.firstname1,self.middlename1,self.lastname1,self.address,self.var_name,dep_query_result[0],Job_query_result[0],attendSch_query_result[0],AccessCat_query_result[0]]
 
             cursor.fetchone()
 
             if (len(self.firstname1)&len(self.middlename1)&len(self.lastname1)&len(self.address))!=0: 
 
-                cursor.execute("INSERT INTO Employees (Emp_First_Name, Emp_Middle_Name, Emp_Last_Name,Emp_Address,Emp_DOB,Emp_Dpet_ID) VALUES (?,?,?,?,?,?);",Emp_info)
+                cursor.execute("INSERT INTO Employees (Emp_First_Name, Emp_Middle_Name, Emp_Last_Name,Emp_Address,Emp_DOB,Emp_Dpet_ID,Emp_Job_ID,Emp_Attendace_Scheme ID,Emp_Access_ID) VALUES (?,?,?,?,?,?,?,?.?);",Emp_info)
                 NewEmployeeScreen.genID(self)
             
             else:
@@ -868,7 +927,7 @@ def TakeingAttendace():
                 Rname=str(Fname)+" "+str(Lname)
                 #print(rname) 
                 Attendance(rname)           
-                if conf < 80:
+                if conf < 70:
                     cv2.putText(img, Rname, (x+2,y+h-5), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),2)
         
                     #cv2.putText(img,'Hit Enter if you are '+rname,(50,50),cv2.FONT_HERSHEY_COMPLEX,1,(0,0,255),2)

@@ -605,9 +605,6 @@ class Ui_Dialog(object):
 "    border-radius: 20px;")
         self.last_line.setClearButtonEnabled(True)
         self.job_drop = QComboBox(Dialog)
-        self.job_drop.addItem("")
-        self.job_drop.addItem("")
-        self.job_drop.addItem("")
         self.job_drop.setObjectName(u"job_drop")
         self.job_drop.setGeometry(QRect(1120, 570, 281, 41))
         self.job_drop.setFont(font)
@@ -655,11 +652,8 @@ class Ui_Dialog(object):
         self.label_66.setFont(font1)
         self.label_66.setStyleSheet(u"")
         self.attend_drop = QComboBox(Dialog)
-        self.attend_drop.addItem("")
-        self.attend_drop.addItem("")
-        self.attend_drop.addItem("")
         self.attend_drop.setObjectName(u"attend_drop")
-        self.attend_drop.setGeometry(QRect(770, 690, 271, 41))
+        self.attend_drop.setGeometry(QRect(790, 690, 271, 41))
         self.attend_drop.setFont(font)
         self.attend_drop.setStyleSheet(u"\n"
 "\n"
@@ -719,9 +713,6 @@ class Ui_Dialog(object):
         self.label_13.setFont(font1)
         self.label_13.setStyleSheet(u"")
         self.access_drop = QComboBox(Dialog)
-        self.access_drop.addItem("")
-        self.access_drop.addItem("")
-        self.access_drop.addItem("")
         self.access_drop.setObjectName(u"access_drop")
         self.access_drop.setGeometry(QRect(1120, 690, 281, 41))
         self.access_drop.setFont(font)
@@ -757,7 +748,7 @@ class Ui_Dialog(object):
         self.label_25.setStyleSheet(u"")
         self.dep_drop = QComboBox(Dialog)
         self.dep_drop.setObjectName(u"dep_drop")
-        self.dep_drop.setGeometry(QRect(770, 570, 271, 41))
+        self.dep_drop.setGeometry(QRect(790, 570, 271, 41))
         self.dep_drop.setFont(font)
         self.dep_drop.setStyleSheet(u"width: 100px;\n"
 "height: 100px;\n"
@@ -822,6 +813,11 @@ class Ui_Dialog(object):
         self.radioButton.setEnabled(True)
         self.radioButton.setGeometry(QRect(10, 50, 82, 31))
         self.radioButton.setFont(font2)
+        self.E2 = QLabel(Dialog)
+        self.E2.setObjectName(u"E2")
+        self.E2.setGeometry(QRect(910, 440, 361, 51))
+        self.E2.setFont(font)
+        self.E2.setStyleSheet(u"color:red")
 
         self.retranslateUi(Dialog)
 
@@ -842,10 +838,6 @@ class Ui_Dialog(object):
         self.label_85.setText(QCoreApplication.translate("Dialog", u"Attendance Scheme ", None))
         self.middle_line.setPlaceholderText(QCoreApplication.translate("Dialog", u"Enter Middle Name", None))
         self.last_line.setPlaceholderText(QCoreApplication.translate("Dialog", u"Enter Last Name", None))
-        self.job_drop.setItemText(0, QCoreApplication.translate("Dialog", u"General manager", None))
-        self.job_drop.setItemText(1, QCoreApplication.translate("Dialog", u"Head Security", None))
-        self.job_drop.setItemText(2, QCoreApplication.translate("Dialog", u"Sales employee", None))
-
         self.job_drop.setPlaceholderText(QCoreApplication.translate("Dialog", u"Select Job Title ", None))
         self.label_83.setText(QCoreApplication.translate("Dialog", u"Department", None))
         self.cancel_button.setText(QCoreApplication.translate("Dialog", u"Cancel", None))
@@ -853,10 +845,6 @@ class Ui_Dialog(object):
         self.label_84.setText(QCoreApplication.translate("Dialog", u"Access Categroy", None))
         self.label_6.setText(QCoreApplication.translate("Dialog", u"Employee Registration", None))
         self.label_66.setText(QCoreApplication.translate("Dialog", u"E-Mail", None))
-        self.attend_drop.setItemText(0, QCoreApplication.translate("Dialog", u"New Item", None))
-        self.attend_drop.setItemText(1, QCoreApplication.translate("Dialog", u"New Item", None))
-        self.attend_drop.setItemText(2, QCoreApplication.translate("Dialog", u"New Item", None))
-
         self.attend_drop.setPlaceholderText(QCoreApplication.translate("Dialog", u"Select Attendance Scheme ", None))
         self.photo_label.setText("")
         self.email_line.setPlaceholderText(QCoreApplication.translate("Dialog", u"Enter Email", None))
@@ -865,10 +853,6 @@ class Ui_Dialog(object):
         self.save_button.setText(QCoreApplication.translate("Dialog", u"Save", None))
         self.label_23.setText(QCoreApplication.translate("Dialog", u"Last Name", None))
         self.label_13.setText(QCoreApplication.translate("Dialog", u"Middle Name", None))
-        self.access_drop.setItemText(0, QCoreApplication.translate("Dialog", u"A", None))
-        self.access_drop.setItemText(1, QCoreApplication.translate("Dialog", u"B", None))
-        self.access_drop.setItemText(2, QCoreApplication.translate("Dialog", u"C", None))
-
         self.access_drop.setPlaceholderText(QCoreApplication.translate("Dialog", u"Select Acess Categroy", None))
         self.label_67.setText(QCoreApplication.translate("Dialog", u"Address", None))
         self.address_line.setPlaceholderText(QCoreApplication.translate("Dialog", u"Enter Address", None))
@@ -884,5 +868,6 @@ class Ui_Dialog(object):
         self.groupBox_2.setTitle(QCoreApplication.translate("Dialog", u"Gender", None))
         self.radioButton_2.setText(QCoreApplication.translate("Dialog", u"Female", None))
         self.radioButton.setText(QCoreApplication.translate("Dialog", u"Male", None))
+        self.E2.setText("")
     # retranslateUi
 
