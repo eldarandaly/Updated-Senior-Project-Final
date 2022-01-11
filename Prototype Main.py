@@ -844,7 +844,7 @@ def TakeingAttendace():
             exit(0)         
 
         face_cascade = cv2.CascadeClassifier('./Resources/haarcascade_frontalface_default.xml')
-        cap = cv2.VideoCapture(1)
+        cap = cv2.VideoCapture(0)
         recognizer = cv2.face.LBPHFaceRecognizer_create()
         recognizer.read(fname1)
 
@@ -865,10 +865,10 @@ def TakeingAttendace():
 
                 rname=str(Fname)+str(Mname)+str(Lname)
 
-                Rname=str(Fname)+''+str(Lname)
+                Rname=str(Fname)+" "+str(Lname)
                 #print(rname) 
                 Attendance(rname)           
-                if conf < 50:
+                if conf < 80:
                     cv2.putText(img, Rname, (x+2,y+h-5), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),2)
         
                     #cv2.putText(img,'Hit Enter if you are '+rname,(50,50),cv2.FONT_HERSHEY_COMPLEX,1,(0,0,255),2)
@@ -964,7 +964,7 @@ class AddNewAdmin(QDialog):
 
 # main
 app = QApplication(sys.argv)
-welcome = WelcomeScreen()
+welcome = MainWin()
 widget = QtWidgets.QStackedWidget()
 widget.addWidget(welcome)
 widget.setWindowTitle("Welcome")
