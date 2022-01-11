@@ -1,6 +1,6 @@
 ﻿# Updated-Senior-Project-Final
  
-#pyqt-stylesheets
-  #Installation
+﻿#pyqt-stylesheets
+  ﻿#Installation
 python setup.py build
 python setup.py install
