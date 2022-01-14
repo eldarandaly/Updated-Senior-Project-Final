@@ -301,7 +301,7 @@ class NewEmployeeScreen(QDialog):
 
                 Emp_info=[self.firstname1,self.middlename1,self.lastname1,self.address,self.var_name,dep_query_result[0],Job_query_result[0],attendSch_query_result[0],AccessCat_query_result[0]]
 
-                cursor.execute("INSERT INTO Employees (Emp_First_Name, Emp_Middle_Name, Emp_Last_Name,Emp_Address,Emp_DOB,Emp_Dpet_ID,Emp_Job_ID,Emp_Attendace_Scheme ID,Emp_Access_ID) VALUES (?,?,?,?,?,?,?,?.?);",Emp_info)
+                cursor.execute("INSERT INTO Employees (Emp_First_Name, Emp_Middle_Name, Emp_Last_Name,Emp_Address,Emp_DOB,Emp_Dpet_ID,Emp_Job_ID,Emp_Attendace_SchemeID,Emp_Access_ID) VALUES (?,?,?,?,?,?,?,?.?);",Emp_info)
 
                 NewEmployeeScreen.genID(self)
             
@@ -1033,7 +1033,7 @@ class AddNewAdmin(QDialog):
 
 # main
 app = QApplication(sys.argv)
-welcome = NewEmployeeScreen()
+welcome = WelcomeScreen()
 widget = QtWidgets.QStackedWidget()
 widget.addWidget(welcome)
 widget.setWindowTitle("Welcome")
