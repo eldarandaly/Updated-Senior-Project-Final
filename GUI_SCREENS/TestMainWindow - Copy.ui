@@ -579,7 +579,7 @@ QAbstractSpinBox {
        <rect>
         <x>10</x>
         <y>60</y>
-        <width>391</width>
+        <width>801</width>
         <height>511</height>
        </rect>
       </property>

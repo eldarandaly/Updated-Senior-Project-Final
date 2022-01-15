@@ -574,7 +574,7 @@ class Ui_Dialog(object):
         self.groupBox.setAcceptDrops(False)
         self.groupBox_2 = QGroupBox(self.groupBox)
         self.groupBox_2.setObjectName(u"groupBox_2")
-        self.groupBox_2.setGeometry(QRect(10, 60, 391, 511))
+        self.groupBox_2.setGeometry(QRect(10, 60, 801, 511))
         font1 = QFont()
         font1.setFamily(u"Old Antic Bold")
         font1.setPointSize(11)

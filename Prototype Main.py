@@ -32,6 +32,7 @@ class WelcomeScreen(QDialog):
         #self.setGeometry(0,0,1487,973)
         self.setFixedWidth(371)
         self.setFixedHeight(661)
+        self.setGeometry(50,50,371,661)
     def gotologin(self):
 
         login = LoginScreen()
@@ -39,6 +40,7 @@ class WelcomeScreen(QDialog):
         widget.setCurrentIndex(widget.currentIndex()+1)
         widget.setFixedWidth(548)
         widget.setFixedHeight(755)
+        widget.setGeometry(50,50,1538,926)
         widget.setWindowTitle("Login Screen")
 
 
@@ -52,6 +54,7 @@ class LoginScreen(QDialog):
         loadUi("./GUI_SCREENS/login - Copy.ui",self)
         self.setFixedWidth(548)
         self.setFixedHeight(755)
+        self.setGeometry(50,50,548,755)
         self.passwordfield.setEchoMode(QtWidgets.QLineEdit.Password)
         self.login.clicked.connect(self.loginfunction)
         self.CancelButton.clicked.connect(self.goBack)
@@ -95,6 +98,7 @@ class LoginScreen(QDialog):
         widget.setCurrentIndex(widget.currentIndex()+1)
         widget.setFixedWidth(861)
         widget.setFixedHeight(605)
+        widget.setGeometry(50,50,861,605)
         widget.setWindowTitle("Main Screen")
 
         
@@ -104,6 +108,7 @@ class LoginScreen(QDialog):
         widget.setCurrentIndex(widget.currentIndex()+1)  
         widget.setFixedWidth(371)
         widget.setFixedHeight(661)
+        widget.setGeometry(50,50,371,661)
         widget.setWindowTitle("Welcome Screen")
 
 
@@ -158,7 +163,8 @@ class NewEmployeeScreen(QDialog):
 
     def handel_Ui(self):
         self.setFixedWidth(1538)
-        self.setFixedHeight(926)   
+        self.setFixedHeight(926)
+        self.setGeometry(50,50,1538,926)   
 
     def genID(self):
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -375,6 +381,7 @@ class NewEmployeeScreen(QDialog):
         widget.setCurrentIndex(widget.currentIndex()+1)
         widget.setFixedWidth(861)
         widget.setFixedHeight(605)
+        widget.setGeometry(50,50,861,605)
         widget.setWindowTitle("Main Screen")
        
 ######################################################## NewEmployeeScreen #############################################
@@ -415,6 +422,7 @@ class TabWidget(QDialog):
        # tabwidget.setStyleSheet(u"background-color: rgb(200, 200, 200);"" font: 18pt Old Antic Bold;""\n""\n")            
         self.setFixedWidth(1200)
         self.setFixedHeight(800)
+        self.setGeometry(50,50,1200,800)
 
     def back2Main(self):
         mainwint=MainWin()
@@ -422,6 +430,7 @@ class TabWidget(QDialog):
         widget.setCurrentIndex(widget.currentIndex()+1)
         widget.setFixedWidth(861)
         widget.setFixedHeight(605)
+        widget.setGeometry(50,50,861,605)
         widget.setWindowTitle("Main Screen")
 
 
@@ -815,7 +824,7 @@ class MainWin(QDialog):
         loadUi("./GUI_SCREENS/TestMainWindow - Copy.ui",self)
         self.setFixedWidth(861)
         self.setFixedHeight(605)
-
+        self.setGeometry(50,50,861,605)
         self.pushButton.clicked.connect(self.gotonewemp)
         self.pushButton_2.clicked.connect(self.gotoCompanyInfo)
         self.TrainButton.clicked.connect(Trainmodle)
@@ -831,6 +840,7 @@ class MainWin(QDialog):
         widget.setCurrentIndex(widget.currentIndex()+1)
         widget.setFixedWidth(838)
         widget.setFixedHeight(855)
+        widget.setGeometry(50,50,838,855)
         widget.setWindowTitle("Add admin Screen")
 
     def gotonewemp(self):
@@ -839,6 +849,7 @@ class MainWin(QDialog):
         widget.setCurrentIndex(widget.currentIndex() + 1)
         widget.setFixedWidth(1538)
         widget.setFixedHeight(926)
+        widget.setGeometry(50,50,1538,926)
         widget.setWindowTitle("New Employee Screen")
     '''   
     def gotoAddADmin(self):
@@ -854,6 +865,7 @@ class MainWin(QDialog):
         widget.setCurrentIndex(widget.currentIndex() + 1) 
         widget.setFixedWidth(1200)
         widget.setFixedHeight(800)
+        widget.setGeometry(50,50,1200,800)
         widget.setWindowTitle("Company Information Screen")
     
     def gotoWelcome(self):
@@ -862,6 +874,7 @@ class MainWin(QDialog):
         widget.setCurrentIndex(widget.currentIndex()+1)
         widget.setFixedWidth(371)
         widget.setFixedHeight(661)
+        widget.setGeometry(50,50,371,661)
         widget.setWindowTitle("Welcome Screen")
 
     def Exitsys(self):
@@ -976,6 +989,7 @@ class AddNewAdmin(QDialog):
         self.CancelButton.clicked.connect(self.goBack)
         self.setFixedWidth(1551)
         self.setFixedHeight(1031)
+        self.setGeometry(50,50,1551,1031)
 
     def signupfunction(self):
         EmpId=self.empid.text()
@@ -1020,6 +1034,7 @@ class AddNewAdmin(QDialog):
         widget.setWindowTitle("Login Screen")
         widget.setFixedWidth(548)
         widget.setFixedHeight(755)
+        widget.setGeometry(50,50,548,755)
            
 
     def goBack(self):
@@ -1029,6 +1044,7 @@ class AddNewAdmin(QDialog):
         widget.setWindowTitle("Main Screen")
         widget.setFixedWidth(861)
         widget.setFixedHeight(605) 
+        widget.setGeometry(50,50,861,605)
 ######################################################## AddNewAdminWindow #############################################
 
 # main
@@ -1036,6 +1052,7 @@ app = QApplication(sys.argv)
 welcome = WelcomeScreen()
 widget = QtWidgets.QStackedWidget()
 widget.addWidget(welcome)
+widget.setGeometry(50,50,371,661)
 widget.setWindowTitle("Welcome")
 
 
