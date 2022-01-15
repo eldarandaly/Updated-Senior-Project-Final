@@ -82,15 +82,25 @@ class LoginScreen(QDialog):
             query_result  = cur.fetchone()
             #print(result_pass)
            # result_pass = query_result[0]
-
-            if query_result is None:
+            if query_result is not None:
+                if query_result[0] == self.password:
+                    QMessageBox.about(self, "alert", "Successfully logged in \n"+self.user)
+                    print("Successfully logged in.")
+                    self.gotomaintest()
+                else:
+                    self.error.setText("Invalid username or password")
+            else:        
                 self.error.setText("Invalid username or password")
                 print('here')
 
-            elif query_result[0] == self.password:
-                QMessageBox.about(self, "alert", "Successfully logged in \n"+self.user)
-                print("Successfully logged in.")
-                self.gotomaintest()
+           # if query_result is None:
+            #    self.error.setText("Invalid username or password")
+             #   print('here')
+
+            #elif query_result[0] == self.password:
+             #   QMessageBox.about(self, "alert", "Successfully logged in \n"+self.user)
+              #  print("Successfully logged in.")
+               # self.gotomaintest()
 
     def gotomaintest(self):
         mainwint=MainWin()
@@ -926,7 +936,7 @@ def TakeingAttendace():
             exit(0)         
 
         face_cascade = cv2.CascadeClassifier('./Resources/haarcascade_frontalface_default.xml')
-        cap = cv2.VideoCapture(0)
+        cap = cv2.VideoCapture(1)
         recognizer = cv2.face.LBPHFaceRecognizer_create()
         recognizer.read(fname1)
 
