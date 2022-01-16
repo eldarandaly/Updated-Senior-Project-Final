@@ -26,18 +26,19 @@ import pyqtcss
 class WelcomeScreen(QDialog):
     def __init__(self):
         super(WelcomeScreen, self).__init__()
-        loadUi("./GUI_SCREENS/WelcomeScreen - Copy.ui",self)
-        self.login.clicked.connect(self.gotologin)
+        loadUi("./GUI_SCREENS/WelcomeScreen - Copy.ui",self) # load the GUI file
+        self.login.clicked.connect(self.gotologin) # event handel for button login 
         self.setWindowTitle("Welcome Screen")
         #self.setGeometry(0,0,1487,973)
         self.setFixedWidth(371)
         self.setFixedHeight(661)
-        self.setGeometry(50,50,371,661)
+        self.setGeometry(50,50,371,661) #set fixed size for window 
+    
     def gotologin(self):
 
         login = LoginScreen()
         widget.addWidget(login)
-        widget.setCurrentIndex(widget.currentIndex()+1)
+        widget.setCurrentIndex(widget.currentIndex()+1) # showing the next widget (screen) that in the above line (loginScreen)
         widget.setFixedWidth(548)
         widget.setFixedHeight(755)
         widget.setGeometry(50,50,1538,926)
@@ -55,18 +56,21 @@ class LoginScreen(QDialog):
         self.setFixedWidth(548)
         self.setFixedHeight(755)
         self.setGeometry(50,50,548,755)
-        self.passwordfield.setEchoMode(QtWidgets.QLineEdit.Password)
+
+        #self.passwordfield.setEchoMode(QtWidgets.QLineEdit.Password)
+
         self.login.clicked.connect(self.loginfunction)
         self.CancelButton.clicked.connect(self.goBack)
-        self.setWindowTitle("Login")
-        #self.mainwin=MainWin()
 
+        self.setWindowTitle("Login")
+
+        #self.mainwin=MainWin()
 
 
     def loginfunction(self):
 
-        self.user = self.emailfield.text()
-        self.password = self.passwordfield.text()
+        self.user = self.user_line.text()
+        self.password = self.pass_line.text()
 
 
         if len(self.user)==0 or len(self.password)==0:
@@ -74,11 +78,10 @@ class LoginScreen(QDialog):
 
         else:
             
-            conn = sqlite3.connect("./DataBaseTable.db")
+            conn = sqlite3.connect("./DataBaseTabletest.db")
             cur = conn.cursor()
             query = 'SELECT User_Password FROM Users WHERE User_Name =\''+self.user+"\'"
             cur.execute(query)
-            
             query_result  = cur.fetchone()
             #print(result_pass)
            # result_pass = query_result[0]
@@ -178,7 +181,7 @@ class NewEmployeeScreen(QDialog):
 
     def genID(self):
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        db_path = os.path.join(BASE_DIR, "DataBaseTable.db")
+        db_path = os.path.join(BASE_DIR, "DataBaseTabletest.db")
         with sqlite3.connect(db_path) as db:
             cursor=db.cursor()
            
@@ -195,7 +198,7 @@ class NewEmployeeScreen(QDialog):
 
     def getCompayinfo(self):
 
-        conn = sqlite3.connect("./DataBaseTable.db")
+        conn = sqlite3.connect("./DataBaseTabletest.db")
         conn.text_factory=str
         cursor = conn.cursor()
             
@@ -268,7 +271,7 @@ class NewEmployeeScreen(QDialog):
          
 
     def DB(self):
-            conn = sqlite3.connect("./DataBaseTable.db")
+            conn = sqlite3.connect("./DataBaseTabletest.db")
             conn.text_factory=str
             cursor = conn.cursor()
             
@@ -312,17 +315,30 @@ class NewEmployeeScreen(QDialog):
 
 
             #cursor.fetchone()
-        
-            if dep_query_result is not None: 
+           # Emp_info=[self.firstname1,self.middlename1,self.lastname1,self.address,self.var_name,dep_query_result[0],Job_query_result[0],attendSch_query_result[0],AccessCat_query_result[0]]
+            
+         #   print(cursor.execute("INSERT INTO Employees (Emp_First_Name) VALUES(?);",self.firstname1))
 
+            #print(cursor.execute("INSERT INTO Employees (Emp_First_Name, Emp_Middle_Name, Emp_Last_Name,Emp_Address,Emp_DOB,Emp_Dpet_ID,Emp_Job_ID,Emp_Attendace_SchemeID,Emp_Access_ID) VALUES (?,?,?,?,?,?,?,?,?);",Emp_info))
+            
+           # NewEmployeeScreen.genID(self)
+
+            #aa=dep_query_result[0]
+            if dep_query_result is None :
+                QMessageBox.about(self, "alert", "please Fill All the Missing Parts ")
+                self.error.setText("Please Fill the Missing Parts")
+
+            elif dep_query_result is not None:
                 Emp_info=[self.firstname1,self.middlename1,self.lastname1,self.address,self.var_name,dep_query_result[0],Job_query_result[0],attendSch_query_result[0],AccessCat_query_result[0]]
 
-                cursor.execute("INSERT INTO Employees (Emp_First_Name, Emp_Middle_Name, Emp_Last_Name,Emp_Address,Emp_DOB,Emp_Dpet_ID,Emp_Job_ID,Emp_Attendace_SchemeID,Emp_Access_ID) VALUES (?,?,?,?,?,?,?,?.?);",Emp_info)
+                cursor.execute("INSERT INTO Employees (Emp_First_Name, Emp_Middle_Name, Emp_Last_Name,Emp_Address,Emp_DOB,Emp_Dpet_ID,Emp_Job_ID,Emp_Attendace_SchemeID,Emp_Access_ID) VALUES (?,?,?,?,?,?,?,?,?);",Emp_info)
 
                 NewEmployeeScreen.genID(self)
-            
+                conn.commit()
+                conn.close()
+
             else:
-                QMessageBox.about(self, "alert", "please Fill All ")
+                QMessageBox.about(self, "alert", "please Fill All the Missing Parts ")
                 self.error.setText("Please Fill the Missing Parts")
     
             
@@ -358,7 +374,7 @@ class NewEmployeeScreen(QDialog):
                 cropped_face=img[y:y+h,x:x+w]
                 return cropped_face
 
-        cap=cv2.VideoCapture(1)
+        cap=cv2.VideoCapture(0)
         count=0
 
         while True :
@@ -375,7 +391,7 @@ class NewEmployeeScreen(QDialog):
             else:
                 print("face not not found")
                 pass
-            if cv2.waitKey(1)==13 or count == 200:
+            if cv2.waitKey(1)==13 or count == 10:
                 break
         cap.release()
         cv2.destroyAllWindows()
@@ -492,7 +508,7 @@ class DepTab(QWidget):
 
     def DepDB(self):
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        db_path = os.path.join(BASE_DIR, "DataBaseTable.db")
+        db_path = os.path.join(BASE_DIR, "DataBaseTabletest.db")
         with sqlite3.connect(db_path) as db:
             cursor=db.cursor()
 
@@ -557,7 +573,7 @@ class JobTab(QWidget):
 
     def JobDB(self):
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        db_path = os.path.join(BASE_DIR, "DataBaseTable.db")
+        db_path = os.path.join(BASE_DIR, "DataBaseTabletest.db")
         with sqlite3.connect(db_path) as db:
             cursor=db.cursor()
 
@@ -635,7 +651,7 @@ class AttendanceTab(QWidget):
 
     def AttendanceDB(self):
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        db_path = os.path.join(BASE_DIR, "DataBaseTable.db")
+        db_path = os.path.join(BASE_DIR, "DataBaseTabletest.db")
         with sqlite3.connect(db_path) as db:
             cursor=db.cursor()
 
@@ -720,7 +736,7 @@ class AccesTab(QWidget):
 
     def AccesDB(self):
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        db_path = os.path.join(BASE_DIR, "DataBaseTable.db")
+        db_path = os.path.join(BASE_DIR, "DataBaseTabletest.db")
         with sqlite3.connect(db_path) as db:
             cursor=db.cursor()
 
@@ -805,7 +821,7 @@ class GatesTab(QWidget):
 
     def GatesDB(self):
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        db_path = os.path.join(BASE_DIR, "DataBaseTable.db")
+        db_path = os.path.join(BASE_DIR, "DataBaseTabletest.db")
         with sqlite3.connect(db_path) as db:
             cursor=db.cursor()
 
@@ -923,56 +939,61 @@ def Trainmodle():
 def TakeingAttendace():
     if not os.path.exists('./Attendance'):
         os.makedirs('./Attendance')
-    try:
-        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        db_path = os.path.join(BASE_DIR, "DataBaseTable.db")
-        with sqlite3.connect(db_path) as db:
-            cursor=db.cursor()
+#try:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    db_path = os.path.join(BASE_DIR, "DataBaseTabletest.db")
+    with sqlite3.connect(db_path) as db:
+        cursor=db.cursor()
 
-        fname1 = "recognizer/trainingData.yml"
+    fname1 = "recognizer/trainingData.yml"
 
-        if not os.path.isfile(fname1):
-            print("Please train the data first")
-            exit(0)         
+    if not os.path.isfile(fname1):
+        print("Please train the data first")
+        exit(0)         
 
-        face_cascade = cv2.CascadeClassifier('./Resources/haarcascade_frontalface_default.xml')
-        cap = cv2.VideoCapture(1)
-        recognizer = cv2.face.LBPHFaceRecognizer_create()
-        recognizer.read(fname1)
+    face_cascade = cv2.CascadeClassifier('./Resources/haarcascade_frontalface_default.xml')
+    cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)
+    recognizer = cv2.face.LBPHFaceRecognizer_create()
+    recognizer.read(fname1)
 
-        while True: 
-            ret, img = cap.read()
-            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-            faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-            for (x,y,w,h) in faces:
-                cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),3)
-                ids,conf = recognizer.predict(gray[y:y+h,x:x+w])
-                
-                cursor.execute("select * from Employees where Emp_ID = (?);", (ids,))
-                result = cursor.fetchall()
-                #print(result)
-                Fname = result[0][1]
-                Mname= result[0][2]
-                Lname= result[0][3]
+    while True: 
+        ret, img = cap.read()
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+        for (x,y,w,h) in faces:
+            cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),3)
+            ids,conf = recognizer.predict(gray[y:y+h,x:x+w])
+            
+            cursor.execute("select * from Employees where Emp_ID = (?);", (ids,))
+            result = cursor.fetchall()
+            #print(result)
+            Fname = result[0][1]
+            Mname= result[0][2]
+            Lname= result[0][3]
 
-                rname=str(Fname)+str(Mname)+str(Lname)
+            rname=str(Fname)+str(Mname)+str(Lname)
 
-                Rname=str(Fname)+" "+str(Lname)
-                #print(rname) 
-                Attendance(rname)           
-                if conf < 70:
-                    cv2.putText(img, Rname, (x+2,y+h-5), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),2)
-        
-                    #cv2.putText(img,'Hit Enter if you are '+rname,(50,50),cv2.FONT_HERSHEY_COMPLEX,1,(0,0,255),2)
-                else:
-                    cv2.putText(img, 'No Match', (x+2,y+h-5), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),2)
-            cv2.imshow('Face Recognizer',img)
-            k = cv2.waitKey(30)
-            if k==13 & cv2.waitKey(1):
-                cv2.destroyAllWindows()
-           
-    except:
-        print("error")
+            Rname=str(Fname)+" "+str(Lname)
+            #print(rname) 
+            Attendance(rname)           
+            if conf < 70:
+                cv2.putText(img, Rname, (x+2,y+h-5), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),2)
+    
+                #cv2.putText(img,'Hit Enter if you are '+rname,(50,50),cv2.FONT_HERSHEY_COMPLEX,1,(0,0,255),2)
+            else:
+                cv2.putText(img, 'No Match', (x+2,y+h-5), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),2)
+        cv2.imshow('Face Recognizer',img)
+
+
+        if cv2.waitKey(1) & 0xFF == ord('\r'):
+            break
+            
+    cv2.destroyAllWindows()        
+            #cv2.destroyWindow('Face Recognizer')
+  
+    #except:
+     #   print("error")
+
 
 #################################################Marking the Attendace###########
 def Attendance(name):
@@ -982,9 +1003,10 @@ def Attendance(name):
         for line in attended:
             entry = line.split(',')
             EmployeeAttended.append(entry[0])
+            
         if name not in EmployeeAttended:
             attendTime = datetime.now().strftime('%H:%M:%S')
-            attendDate = date.today()
+            
             f.writelines(f'\n{name},{attendTime}')
 
 ######################################################## AddNewAdminWindow #############################################
@@ -1003,9 +1025,9 @@ class AddNewAdmin(QDialog):
 
     def signupfunction(self):
         EmpId=self.empid.text()
-        user = self.emailfield.text()
-        password = self.passwordfield.text()
-        confirmpassword = self.confirmpasswordfield.text()
+        user = self.user_line.text()
+        password = self.pass_line.text()
+        confirmpassword = self.confirmpass_line.text()
 
 
 
@@ -1016,7 +1038,7 @@ class AddNewAdmin(QDialog):
             self.error.setText("Passwords do not match.")
 
         else:
-            conn = sqlite3.connect("./DataBaseTable.db")
+            conn = sqlite3.connect("./DataBaseTabletest.db")
             cur = conn.cursor()
 
             for EmpId in (EmpId):
@@ -1059,7 +1081,7 @@ class AddNewAdmin(QDialog):
 
 # main
 app = QApplication(sys.argv)
-welcome = WelcomeScreen()
+welcome = NewEmployeeScreen()
 widget = QtWidgets.QStackedWidget()
 widget.addWidget(welcome)
 widget.setGeometry(50,50,371,661)
