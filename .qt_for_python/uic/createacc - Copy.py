@@ -575,20 +575,20 @@ class Ui_Dialog(object):
 "color: rgb(255, 255, 255);\n"
 "background-color: rgb(0, 0, 0);\n"
 "font: 20pt \"barlow\";")
-        self.emailfield = QLineEdit(self.bgwidget)
-        self.emailfield.setObjectName(u"emailfield")
-        self.emailfield.setGeometry(QRect(260, 370, 341, 51))
-        self.emailfield.setStyleSheet(u"\n"
+        self.user_line = QLineEdit(self.bgwidget)
+        self.user_line.setObjectName(u"user_line")
+        self.user_line.setGeometry(QRect(260, 370, 341, 51))
+        self.user_line.setStyleSheet(u"\n"
 "font: 16pt \"barlow\";\n"
 "border-radius:20px;")
-        self.emailfield.setClearButtonEnabled(True)
-        self.passwordfield = QLineEdit(self.bgwidget)
-        self.passwordfield.setObjectName(u"passwordfield")
-        self.passwordfield.setGeometry(QRect(260, 500, 341, 51))
-        self.passwordfield.setStyleSheet(u"\n"
+        self.user_line.setClearButtonEnabled(True)
+        self.pass_line = QLineEdit(self.bgwidget)
+        self.pass_line.setObjectName(u"pass_line")
+        self.pass_line.setGeometry(QRect(260, 500, 341, 51))
+        self.pass_line.setStyleSheet(u"\n"
 "font: 16pt \"barlow\";\n"
 "border-radius:20px;")
-        self.passwordfield.setClearButtonEnabled(True)
+        self.pass_line.setClearButtonEnabled(True)
         self.label_3 = QLabel(self.bgwidget)
         self.label_3.setObjectName(u"label_3")
         self.label_3.setGeometry(QRect(270, 320, 171, 31))
@@ -618,13 +618,13 @@ class Ui_Dialog(object):
         self.label_5.setStyleSheet(u"\n"
 "font: 18pt \"barlow\";\n"
 "border-radius:20px;")
-        self.confirmpasswordfield = QLineEdit(self.bgwidget)
-        self.confirmpasswordfield.setObjectName(u"confirmpasswordfield")
-        self.confirmpasswordfield.setGeometry(QRect(260, 620, 341, 51))
-        self.confirmpasswordfield.setStyleSheet(u"\n"
+        self.confirmpass_line = QLineEdit(self.bgwidget)
+        self.confirmpass_line.setObjectName(u"confirmpass_line")
+        self.confirmpass_line.setGeometry(QRect(260, 620, 341, 51))
+        self.confirmpass_line.setStyleSheet(u"\n"
 "font: 16pt \"barlow\";\n"
 "border-radius:20px;")
-        self.confirmpasswordfield.setClearButtonEnabled(True)
+        self.confirmpass_line.setClearButtonEnabled(True)
         self.label_7 = QLabel(self.bgwidget)
         self.label_7.setObjectName(u"label_7")
         self.label_7.setGeometry(QRect(270, 200, 171, 31))
@@ -656,13 +656,13 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Dialog", None))
         self.label.setText(QCoreApplication.translate("Dialog", u"Adding New Admin", None))
         self.signup.setText(QCoreApplication.translate("Dialog", u"Sign up", None))
-        self.emailfield.setPlaceholderText(QCoreApplication.translate("Dialog", u"Enter Employee User Name", None))
-        self.passwordfield.setPlaceholderText(QCoreApplication.translate("Dialog", u"Enter Employee Password", None))
+        self.user_line.setPlaceholderText(QCoreApplication.translate("Dialog", u"Enter Employee User Name", None))
+        self.pass_line.setPlaceholderText(QCoreApplication.translate("Dialog", u"Enter Employee Password", None))
         self.label_3.setText(QCoreApplication.translate("Dialog", u"Username", None))
         self.label_4.setText(QCoreApplication.translate("Dialog", u"Password", None))
         self.error.setText("")
         self.label_5.setText(QCoreApplication.translate("Dialog", u"Confirm Password", None))
-        self.confirmpasswordfield.setPlaceholderText(QCoreApplication.translate("Dialog", u"Confirm Employee Password", None))
+        self.confirmpass_line.setPlaceholderText(QCoreApplication.translate("Dialog", u"Confirm Employee Password", None))
         self.label_7.setText(QCoreApplication.translate("Dialog", u"Employee ID", None))
         self.empid.setPlaceholderText(QCoreApplication.translate("Dialog", u"Enter Employee ID", None))
         self.CancelButton.setText(QCoreApplication.translate("Dialog", u"Cancel", None))

@@ -593,7 +593,7 @@ font-size:20pt</string>
        <string>LOG IN</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="emailfield">
+     <widget class="QLineEdit" name="user_line">
       <property name="geometry">
        <rect>
         <x>100</x>
@@ -619,7 +619,7 @@ border-radius:20px;
        <string>Enter Your User Name</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="passwordfield">
+     <widget class="QLineEdit" name="pass_line">
       <property name="geometry">
        <rect>
         <x>100</x>
@@ -640,6 +640,9 @@ border-radius:20px;
        <string notr="true">
 border-radius:20px;
 </string>
+      </property>
+      <property name="echoMode">
+       <enum>QLineEdit::Password</enum>
       </property>
       <property name="placeholderText">
        <string>Enter Your Password</string>

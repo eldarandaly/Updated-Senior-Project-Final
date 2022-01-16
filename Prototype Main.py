@@ -17,9 +17,21 @@ import numpy as np
 import pandas as pd
 from PIL import Image
 import pyqtcss
-
-
-
+from tensorflow.keras.models import model_from_json
+from tensorflow.keras.preprocessing.image import img_to_array
+######
+root_dir = os.getcwd()
+# Load Face Detection Model
+face_cascade = cv2.CascadeClassifier("models/haarcascade_frontalface_default.xml")
+# Load Anti-Spoofing Model graph
+json_file = open('antispoofing_models/antispoofing_model.json','r')
+loaded_model_json = json_file.read()
+json_file.close()
+model = model_from_json(loaded_model_json)
+# load antispoofing model weights 
+model.load_weights('antispoofing_models/antispoofing_model.h5')
+print("Model loaded from disk")
+######
 
 
 ######################################################## StartUp window #############################################
@@ -70,6 +82,7 @@ class LoginScreen(QDialog):
     def loginfunction(self):
 
         self.user = self.user_line.text()
+
         self.password = self.pass_line.text()
 
 
@@ -80,11 +93,13 @@ class LoginScreen(QDialog):
             
             conn = sqlite3.connect("./DataBaseTabletest.db")
             cur = conn.cursor()
+
             query = 'SELECT User_Password FROM Users WHERE User_Name =\''+self.user+"\'"
             cur.execute(query)
             query_result  = cur.fetchone()
             #print(result_pass)
            # result_pass = query_result[0]
+
             if query_result is not None:
                 if query_result[0] == self.password:
                     QMessageBox.about(self, "alert", "Successfully logged in \n"+self.user)
@@ -94,16 +109,8 @@ class LoginScreen(QDialog):
                     self.error.setText("Invalid username or password")
             else:        
                 self.error.setText("Invalid username or password")
-                print('here')
+                
 
-           # if query_result is None:
-            #    self.error.setText("Invalid username or password")
-             #   print('here')
-
-            #elif query_result[0] == self.password:
-             #   QMessageBox.about(self, "alert", "Successfully logged in \n"+self.user)
-              #  print("Successfully logged in.")
-               # self.gotomaintest()
 
     def gotomaintest(self):
         mainwint=MainWin()
@@ -137,9 +144,10 @@ class NewEmployeeScreen(QDialog):
         self.handel_Lines()
         self.handel_photo()
         self.handel_Ui()
-        #self.x=NewEmployeeScreen()
+
         
-        self.testCapID=''  
+        self.capture_Emp_ID=''  
+
         self.getCompayinfo()  
 
         self.firstname1=self.first_line.text()
@@ -152,8 +160,6 @@ class NewEmployeeScreen(QDialog):
         self.var_name = self.DOB.toPyDate()
 
 
-              
-    
     def handel_buttons(self):
         self.save_button.clicked.connect(self.DB)
         self.save_button.clicked.connect(self.handel_Lines)
@@ -174,6 +180,8 @@ class NewEmployeeScreen(QDialog):
         self.email_line.clear()
         
 
+        
+
     def handel_Ui(self):
         self.setFixedWidth(1538)
         self.setFixedHeight(926)
@@ -190,11 +198,11 @@ class NewEmployeeScreen(QDialog):
                 printIDint=int(row[0])
                 printIDint+=1
                 printIDstr=str(printIDint)
-                self.testCapID=printIDstr   
+                self.capture_Emp_ID=printIDstr   
             #self.IDlable.setText(printIDstr)
             #self.lcdNumber.display(printIDint)
             
-            QMessageBox.about(self, "alert", "Employee Added its ID"+self.testCapID)
+            #QMessageBox.about(self, "alert", "Employee Added its ID"+self.capture_Emp_ID)
 
     def getCompayinfo(self):
 
@@ -367,7 +375,7 @@ class NewEmployeeScreen(QDialog):
         NewEmployeeScreen.genID(self)
         def face_ext(img):
             gray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-            faces=face_classifier.detectMultiScale(gray,1.2,7)
+            faces=face_classifier.detectMultiScale(gray,1.2,5)
             if faces is():
                 return None
             for(x,y,w,h) in faces:
@@ -384,7 +392,7 @@ class NewEmployeeScreen(QDialog):
                 count+=1
                 face=cv2.resize(face_ext(frame),(400,400))
                 face=cv2.cvtColor(face,cv2.COLOR_BGR2GRAY)
-                file_name_path="dataset/"+firstnameCap+"."+self.testCapID+'.'+str(count)+".jpg"
+                file_name_path="dataset/"+firstnameCap+"."+self.capture_Emp_ID+'.'+str(count)+".jpg"
                 cv2.imwrite(file_name_path,face)
                 cv2.putText(face,str(count),(50,50),cv2.FONT_HERSHEY_SCRIPT_COMPLEX,1,(255,255,0),3)
                 cv2.imshow("Getting Emp face",face)
@@ -959,8 +967,18 @@ def TakeingAttendace():
     while True: 
         ret, img = cap.read()
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+        faces = face_cascade.detectMultiScale(gray, 1.2,5)
+
         for (x,y,w,h) in faces:
+
+            facesp = img[y-5:y+h+5,x-5:x+w+5]
+
+            resized_face = cv2.resize(facesp,(160,160))
+            resized_face = resized_face.astype("float") / 255.
+            resized_face = np.expand_dims(resized_face, axis=0)
+            preds = model.predict(resized_face)[0]
+
+
             cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),3)
             ids,conf = recognizer.predict(gray[y:y+h,x:x+w])
             
@@ -975,13 +993,32 @@ def TakeingAttendace():
 
             Rname=str(Fname)+" "+str(Lname)
             #print(rname) 
-            Attendance(rname)           
-            if conf < 70:
-                cv2.putText(img, Rname, (x+2,y+h-5), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),2)
-    
-                #cv2.putText(img,'Hit Enter if you are '+rname,(50,50),cv2.FONT_HERSHEY_COMPLEX,1,(0,0,255),2)
+            Attendance(rname)     
+
+            if conf<70 :
+                if preds<0.5:
+                    cv2.putText(img, Rname, (x+2,y+h-5), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),2)
+
+                    label = 'real'
+
+                    cv2.putText(img, label, (x,y - 10),
+
+                    cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,), 2)
+
+                # cv2.rectangle(img, (x, y), (x+w,y+h),
+                    #(0, 255, 0), 2)
+                    #cv2.putText(img,'Hit Enter if you are '+rname,(50,50),cv2.FONT_HERSHEY_COMPLEX,1,(0,0,255),2)
+                else:
+                    #cv2.putText(img, 'No Match', (x+2,y+h-5), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),2)
+                    label = 'spoof'
+                    cv2.putText(img, Rname, (x+2,y+h-5), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),2)
+                    cv2.putText(img, label, (x,y - 10),
+                    cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 2)
+                # cv2.rectangle(img, (x, y), (x+w,y+h),
+                    #    (0, 0, 255), 2)
             else:
                 cv2.putText(img, 'No Match', (x+2,y+h-5), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),2)
+
         cv2.imshow('Face Recognizer',img)
 
 
@@ -989,10 +1026,7 @@ def TakeingAttendace():
             break
             
     cv2.destroyAllWindows()        
-            #cv2.destroyWindow('Face Recognizer')
-  
-    #except:
-     #   print("error")
+
 
 
 #################################################Marking the Attendace###########

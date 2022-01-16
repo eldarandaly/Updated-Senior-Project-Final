@@ -593,7 +593,7 @@ font: 20pt &quot;barlow&quot;;</string>
      <string>Sign up</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="emailfield">
+   <widget class="QLineEdit" name="user_line">
     <property name="geometry">
      <rect>
       <x>260</x>
@@ -614,7 +614,7 @@ border-radius:20px;</string>
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLineEdit" name="passwordfield">
+   <widget class="QLineEdit" name="pass_line">
     <property name="geometry">
      <rect>
       <x>260</x>
@@ -714,7 +714,7 @@ border-radius:20px;</string>
      <string>Confirm Password</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="confirmpasswordfield">
+   <widget class="QLineEdit" name="confirmpass_line">
     <property name="geometry">
      <rect>
       <x>260</x>

@@ -580,25 +580,26 @@ class Ui_Dialog(object):
 "background-color: rgb(0, 0, 0);\n"
 "color: rgb(255, 255, 255);\n"
 "font-size:20pt")
-        self.emailfield = QLineEdit(self.bgwidget)
-        self.emailfield.setObjectName(u"emailfield")
-        self.emailfield.setGeometry(QRect(100, 260, 341, 51))
+        self.user_line = QLineEdit(self.bgwidget)
+        self.user_line.setObjectName(u"user_line")
+        self.user_line.setGeometry(QRect(100, 260, 341, 51))
         font2 = QFont()
         font2.setFamily(u"Barlow")
         font2.setPointSize(12)
         font2.setBold(True)
         font2.setWeight(75)
-        self.emailfield.setFont(font2)
-        self.emailfield.setStyleSheet(u"\n"
+        self.user_line.setFont(font2)
+        self.user_line.setStyleSheet(u"\n"
 "border-radius:20px;\n"
 "")
-        self.passwordfield = QLineEdit(self.bgwidget)
-        self.passwordfield.setObjectName(u"passwordfield")
-        self.passwordfield.setGeometry(QRect(100, 390, 341, 51))
-        self.passwordfield.setFont(font2)
-        self.passwordfield.setStyleSheet(u"\n"
+        self.pass_line = QLineEdit(self.bgwidget)
+        self.pass_line.setObjectName(u"pass_line")
+        self.pass_line.setGeometry(QRect(100, 390, 341, 51))
+        self.pass_line.setFont(font2)
+        self.pass_line.setStyleSheet(u"\n"
 "border-radius:20px;\n"
 "")
+        self.pass_line.setEchoMode(QLineEdit.Password)
         self.label_3 = QLabel(self.bgwidget)
         self.label_3.setObjectName(u"label_3")
         self.label_3.setGeometry(QRect(110, 220, 111, 21))
@@ -647,8 +648,8 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Dialog", None))
         self.label.setText(QCoreApplication.translate("Dialog", u"Login", None))
         self.login.setText(QCoreApplication.translate("Dialog", u"LOG IN", None))
-        self.emailfield.setPlaceholderText(QCoreApplication.translate("Dialog", u"Enter Your User Name", None))
-        self.passwordfield.setPlaceholderText(QCoreApplication.translate("Dialog", u"Enter Your Password", None))
+        self.user_line.setPlaceholderText(QCoreApplication.translate("Dialog", u"Enter Your User Name", None))
+        self.pass_line.setPlaceholderText(QCoreApplication.translate("Dialog", u"Enter Your Password", None))
         self.label_3.setText(QCoreApplication.translate("Dialog", u"User Name", None))
         self.label_4.setText(QCoreApplication.translate("Dialog", u"Password", None))
         self.error.setText("")
