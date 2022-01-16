@@ -972,10 +972,12 @@ def TakeingAttendace():
         for (x,y,w,h) in faces:
 
             facesp = img[y-5:y+h+5,x-5:x+w+5]
-
-            resized_face = cv2.resize(facesp,(160,160))
-            resized_face = resized_face.astype("float") / 255.
-            resized_face = np.expand_dims(resized_face, axis=0)
+            try:
+                resized_face = cv2.resize(facesp,(160,160))
+                resized_face = resized_face.astype("float") / 255.
+                resized_face = np.expand_dims(resized_face, axis=0)
+            except Exception as e:
+                print(str(e))
             preds = model.predict(resized_face)[0]
 
 
@@ -993,36 +995,30 @@ def TakeingAttendace():
 
             Rname=str(Fname)+" "+str(Lname)
             #print(rname) 
-            Attendance(rname)     
+            #Attendance(rname)     
 
-            if conf<70 :
+            if conf<75  :
                 if preds<0.5:
                     cv2.putText(img, Rname, (x+2,y+h-5), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),2)
 
                     label = 'real'
+                    Attendance(rname)     
 
-                    cv2.putText(img, label, (x,y - 10),
+                    cv2.putText(img, label, (x,y - 10),cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,), 2)
 
-                    cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,), 2)
-
-                # cv2.rectangle(img, (x, y), (x+w,y+h),
-                    #(0, 255, 0), 2)
-                    #cv2.putText(img,'Hit Enter if you are '+rname,(50,50),cv2.FONT_HERSHEY_COMPLEX,1,(0,0,255),2)
                 else:
                     #cv2.putText(img, 'No Match', (x+2,y+h-5), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),2)
                     label = 'spoof'
-                    cv2.putText(img, Rname, (x+2,y+h-5), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),2)
-                    cv2.putText(img, label, (x,y - 10),
-                    cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 2)
-                # cv2.rectangle(img, (x, y), (x+w,y+h),
-                    #    (0, 0, 255), 2)
+                    cv2.putText(img, Rname, (x+2,y+h-5),cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),2)
+                    cv2.putText(img, label, (x,y - 10),cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 2)
+
             else:
                 cv2.putText(img, 'No Match', (x+2,y+h-5), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),2)
 
         cv2.imshow('Face Recognizer',img)
 
 
-        if cv2.waitKey(1) & 0xFF == ord('\r'):
+        if cv2.waitKey(1) == ord('\r'):
             break
             
     cv2.destroyAllWindows()        
@@ -1115,7 +1111,7 @@ class AddNewAdmin(QDialog):
 
 # main
 app = QApplication(sys.argv)
-welcome = NewEmployeeScreen()
+welcome = WelcomeScreen()
 widget = QtWidgets.QStackedWidget()
 widget.addWidget(welcome)
 widget.setGeometry(50,50,371,661)
