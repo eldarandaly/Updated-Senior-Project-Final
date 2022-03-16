@@ -340,16 +340,22 @@ class NewEmployeeScreen(QDialog):
                 Emp_info=[self.firstname1,self.middlename1,self.lastname1,self.address,self.var_name,dep_query_result[0],Job_query_result[0],attendSch_query_result[0],AccessCat_query_result[0]]
 
                 cursor.execute("INSERT INTO Employees (Emp_First_Name, Emp_Middle_Name, Emp_Last_Name,Emp_Address,Emp_DOB,Emp_Dpet_ID,Emp_Job_ID,Emp_Attendace_SchemeID,Emp_Access_ID) VALUES (?,?,?,?,?,?,?,?,?);",Emp_info)
-
+            for row in cursor.execute('SELECT Emp_ID FROM Employees ORDER BY Emp_ID DESC LIMIT 1;'):
+                #print(row)
+                printIDint=int(row[0])
+                #printIDint+=1
+                printIDstr=str(printIDint)
+                self.capture_Emp_ID=printIDstr  
+                QMessageBox.about(self, "alert", "Employee Added its ID"+self.capture_Emp_ID)
                 NewEmployeeScreen.genID(self)
-                conn.commit()
-                conn.close()
+
 
             else:
                 QMessageBox.about(self, "alert", "please Fill All the Missing Parts ")
                 self.error.setText("Please Fill the Missing Parts")
     
-            
+                conn.commit()
+                conn.close()
     
 
     def BrowseImage(self):
@@ -363,7 +369,7 @@ class NewEmployeeScreen(QDialog):
 
 
 
-    def Caputer_Images(self):
+    def Caputer_Images(self): # caputer Employee Face for Dataset 
 
 
         if not os.path.exists("./dataset"):
@@ -382,7 +388,7 @@ class NewEmployeeScreen(QDialog):
                 cropped_face=img[y:y+h,x:x+w]
                 return cropped_face
 
-        cap=cv2.VideoCapture(0)
+        cap=cv2.VideoCapture(1)
         count=0
 
         while True :
@@ -399,7 +405,7 @@ class NewEmployeeScreen(QDialog):
             else:
                 print("face not not found")
                 pass
-            if cv2.waitKey(1)==13 or count == 10:
+            if cv2.waitKey(1)==13 or count == 75:
                 break
         cap.release()
         cv2.destroyAllWindows()
@@ -937,6 +943,7 @@ def Trainmodle():
             cv2.imshow("training",faceNp)
             cv2.waitKey(4)
         return np.array(IDs), faces
+        
     Ids, faces = getImageWithID(path)
     recognizer.train(faces,Ids)
     recognizer.save('recognizer/trainingData.yml')
@@ -960,7 +967,7 @@ def TakeingAttendace():
         exit(0)         
 
     face_cascade = cv2.CascadeClassifier('./Resources/haarcascade_frontalface_default.xml')
-    cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)
+    cap = cv2.VideoCapture(1,cv2.CAP_DSHOW)
     recognizer = cv2.face.LBPHFaceRecognizer_create()
     recognizer.read(fname1)
 
@@ -978,6 +985,7 @@ def TakeingAttendace():
                 resized_face = np.expand_dims(resized_face, axis=0)
             except Exception as e:
                 print(str(e))
+
             preds = model.predict(resized_face)[0]
 
 
@@ -998,7 +1006,7 @@ def TakeingAttendace():
             #Attendance(rname)     
 
             if conf<75  :
-                if preds<0.5:
+                if preds<0.4:
                     cv2.putText(img, Rname, (x+2,y+h-5), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),2)
 
                     label = 'real'
@@ -1045,8 +1053,8 @@ class AddNewAdmin(QDialog):
     def __init__(self):
         super(AddNewAdmin, self).__init__()
         loadUi("./GUI_SCREENS/createacc - Copy.ui",self)
-        self.passwordfield.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.confirmpasswordfield.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.pass_line.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.confirmpass_line.setEchoMode(QtWidgets.QLineEdit.Password)
         self.signup.clicked.connect(self.signupfunction)
         self.CancelButton.clicked.connect(self.goBack)
         self.setFixedWidth(1551)
@@ -1074,7 +1082,7 @@ class AddNewAdmin(QDialog):
             for EmpId in (EmpId):
                 cur.execute("SELECT rowid FROM Employees WHERE Emp_ID = ?", (EmpId, ))
             data = cur.fetchall()
-            if len(data) == 0:
+            if len(EmpId) ==0:
                 print('There is No Employee With This ID %s' % EmpId)
                 QMessageBox.about(self, "alert", 'There is No Employee With This ID %s' % EmpId)
             else :
